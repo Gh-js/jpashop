@@ -19,6 +19,7 @@ public class MemberService {
     /**
      * 회원 가입
      */
+    @Transactional
     public Long join(Member member) {
 
         validateDuplicateMember(member);
@@ -27,15 +28,15 @@ public class MemberService {
     }
 
     private void validateDuplicateMember(Member member) {
-        List<Member> fidnMembers = memberRepository.findByname(member.getName());
-        if (!fidnMembers.isEmpty()) {
+        List<Member> findMembers = memberRepository.findByname(member.getName());
+        if (!findMembers.isEmpty()) {
             throw new IllegalStateException("이미 존재하는 회원입니다.");
         }
 
     }
 
     //회원 전체조회
-    public List<Member> findMember() {
+    public List<Member> findMembers() {
         return memberRepository.findAll();
     }
 
