@@ -1,5 +1,6 @@
 package jpabook.jpashop.service;
 
+import jpabook.jpashop.domain.item.Book;
 import jpabook.jpashop.domain.item.Item;
 import jpabook.jpashop.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,19 @@ public class ItemService {
     public void saveItem(Item item) {
         itemRepository.save(item);
 
+    }
+
+    /**
+     * 변경감지를 사용해야 하는 이유 : Merge 사용시, 값이 없다면 Null값이 들어갈 수 있음.
+     */
+    @Transactional
+    public Item updateItem(Long itemId, String name, int price, int stockQuantity) {
+        Item findItem = itemRepository.findOne(itemId);
+        findItem.setPrice(price);
+        findItem.setName(name);
+        findItem.setStockQuantity(stockQuantity);
+
+        return findItem;
     }
 
     public List<Item> findItems() {
